@@ -1,0 +1,105 @@
+### Add new user and organization
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+ {
+  "orgName": "TechLabs",
+  "adminName": "Rajesh",
+  "email": "admin@techlabs.com",
+  "password": "admin123"
+}
+
+### Login user
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@evallo.com",
+  "password": "admin123"
+}
+
+
+### Add new employee
+POST http://localhost:5000/employees
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+
+ {
+  "firstName": "john",
+  "lastName": "Smith",
+  "email": "john@example.com",
+  "phone": "9876543210"
+}
+
+### Get all employees
+GET http://localhost:5000/employees
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg 
+### Get employee by ID
+GET http://localhost:5000/employees/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+### Update employee by ID
+PUT http://localhost:5000/employees/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+
+ {
+  "firstName": "Alice",
+  "lastName": "Johnson",
+  "email": "alice.johnson@example.com",
+  "phone": "9123456780"
+}
+### Delete employee by ID
+DELETE http://localhost:5000/employees/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+
+### Add new team
+POST http://localhost:5000/teams
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+
+{
+  "name": "Frontend Team",
+  "description": "Handles UI development and React projects"
+}
+
+### Get all teams
+GET http://localhost:5000/teams 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+### Get team by ID
+GET http://localhost:5000/teams/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+### Update team by ID
+PUT http://localhost:5000/teams/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+
+{
+  "name": "Backend Team",
+  "description": "Handles server-side development and database management"
+}
+### Delete team by ID
+DELETE http://localhost:5000/teams/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg  
+
+### Assign employee to a team
+POST http://localhost:5000/teams/2/assign 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+
+{
+  "employeeId": 3
+}
+### Unassign employee from a team
+POST http://localhost:5000/teams/2/unassign
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+
+{
+  "employeeId": 3
+}
+### Get all employees in a team
+GET http://localhost:5000/teams/2/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+### Get all teams for an employee
+GET http://localhost:5000/employees/3/teams
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
