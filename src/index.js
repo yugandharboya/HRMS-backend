@@ -42,14 +42,18 @@ const initializeDbAndServer = async () => {
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (organisation_id) REFERENCES organisations(id)
   );`);
+
+      // await db.exec(`DROP TABLE IF EXISTS teams;`);
       await db.exec(`CREATE TABLE IF NOT EXISTS teams (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    organisation_id INTEGER,
-    name TEXT NOT NULL,
-    description TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (organisation_id) REFERENCES organisations(id)
-  );`);
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  organisation_id INTEGER,
+  name TEXT NOT NULL,
+  description TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (organisation_id) REFERENCES organisations(id),
+  UNIQUE (organisation_id, name)
+);`);
+
       await db.exec(`CREATE TABLE IF NOT EXISTS employee_teams (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     employee_id INTEGER,
@@ -92,7 +96,6 @@ app.post("/auth/register", async (req, res) => {
       return res.status(400).send("Email already exists");
     }
 
-    // 2. Create organisation
     const orgResult = await db.run(
       `INSERT INTO organisations (name) VALUES (?)`,
       [orgName]
@@ -112,7 +115,7 @@ app.post("/auth/register", async (req, res) => {
 
     // 5. Generate JWT
     const token = jwt.sign({ userId: userId, orgId: orgId }, "SECRET_KEY", {
-      expiresIn: "30d",
+      expiresIn: "24h",
     });
 
     // 6. Respond
@@ -147,7 +150,7 @@ app.post("/auth/login", async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, orgId: user.organisation_id },
       "SECRET_KEY",
-      { expiresIn: "8h" }
+      { expiresIn: "24h" }
     );
     // 4. Respond
     res.json({
@@ -164,6 +167,7 @@ app.post("/auth/login", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 const authenticateToken = (request, response, next) => {
   let jwtToken;
   const authHeader = request.headers["authorization"];
@@ -186,10 +190,43 @@ const authenticateToken = (request, response, next) => {
     });
   }
 };
+
+// Add new team
+app.post("/teams", authenticateToken, async (request, response) => {
+  const { orgId } = request.user;
+  const { name, description } = request.body;
+  try {
+    const result = await db.run(
+      `INSERT INTO teams (organisation_id, name, description) VALUES (?, ?, ?)`,
+      [orgId, name, description || null]
+    );
+    const teamId = result.lastID;
+    const team = await db.get(`SELECT * FROM teams WHERE id = ?`, [teamId]);
+    response.status(201).json(team);
+  } catch (err) {
+    console.log("Create Team Error:", err);
+    response.status(500).json({ error: "Server error" });
+  }
+});
+
+// get all teams of an organization
+app.get("/teams", authenticateToken, async (req, res) => {
+  const { orgId } = req.user;
+  try {
+    const teams = await db.all(
+      `SELECT * FROM teams WHERE organisation_id = ?`,
+      [orgId]
+    );
+    res.json(teams);
+  } catch (err) {
+    console.log("Get Teams Error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.post("/employees", authenticateToken, async (req, res) => {
   const { orgId } = req.user;
   const { firstName, lastName, email, phone } = req.body;
-  console.log("Received employee data:", req.body);
 
   try {
     const result = await db.run(

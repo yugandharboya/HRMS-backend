@@ -9,6 +9,9 @@ Content-Type: application/json
   "password": "admin123"
 }
 
+### get all users/organizations
+# GET http://localhost:5000/auth/users  
+
 ### Login user
 POST http://localhost:5000/auth/login
 Content-Type: application/json
@@ -18,6 +21,23 @@ Content-Type: application/json
   "password": "admin123"
 }
 
+### Add new team 
+POST http://localhost:5000/teams
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjQwNzEyNjksImV4cCI6MTc2NDEwMDA2OX0.QOQsXUJlZML-ZwxZpSgBOScuAHvVzrovbu5bunKE0EI
+
+ {
+    "name": "Operations Team",
+    "description": "Oversees company operations and process efficiency"
+  }
+
+### get all tems
+GET http://localhost:5000/teams
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjQwNzEyNjksImV4cCI6MTc2NDEwMDA2OX0.QOQsXUJlZML-ZwxZpSgBOScuAHvVzrovbu5bunKE0EI
+
+### delete team by ID
+DELETE http://localhost:5000/teams/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjQwNzEyNjksImV4cCI6MTc2NDEwMDA2OX0.QOQsXUJlZML-ZwxZpSgBOScuAHvVzrovbu5bunKE0EI
 
 ### Add new employee
 POST http://localhost:5000/employees
@@ -55,7 +75,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ
 ### Add new team
 POST http://localhost:5000/teams
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjQwNzgzODYsImV4cCI6MTc2NDEwNzE4Nn0.nGg7MhKoohLcNSRXRVLMsrpLUSe9DvMx-MFYBgAhVBM
 
 {
   "name": "Frontend Team",
@@ -64,14 +84,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ
 
 ### Get all teams
 GET http://localhost:5000/teams 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjQwNzgzODYsImV4cCI6MTc2NDEwNzE4Nn0.nGg7MhKoohLcNSRXRVLMsrpLUSe9DvMx-MFYBgAhVBM
 ### Get team by ID
 GET http://localhost:5000/teams/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjQwNzgzODYsImV4cCI6MTc2NDEwNzE4Nn0.nGg7MhKoohLcNSRXRVLMsrpLUSe9DvMx-MFYBgAhVBM
 ### Update team by ID
 PUT http://localhost:5000/teams/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjM4MjIxNDAsImV4cCI6MTc2Mzg1MDk0MH0.xlECoBGFv02VLYk8IMYIL03SwhoE9i53wBYE-KOYRKg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm9yZ0lkIjoxLCJpYXQiOjE3NjQwNzgzODYsImV4cCI6MTc2NDEwNzE4Nn0.nGg7MhKoohLcNSRXRVLMsrpLUSe9DvMx-MFYBgAhVBM
 
 {
   "name": "Backend Team",
