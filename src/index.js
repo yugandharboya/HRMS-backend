@@ -152,7 +152,7 @@ app.post("/auth/login", async (req, res) => {
     // 2. Compare password
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
     // 3. Generate JWT
     const token = jwt.sign(
@@ -171,7 +171,6 @@ app.post("/auth/login", async (req, res) => {
       },
     });
   } catch (error) {
-    // console.log("Login Error:", error);
     res.status(500).json({ message: "Server Error" });
   }
 });
