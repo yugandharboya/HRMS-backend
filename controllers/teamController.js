@@ -96,11 +96,26 @@ const updateTeam = async (req, res) => {
       });
     }
 
+    const targetName = name || teams[0].name;
+
+    if (targetName !== teams[0].name) {
+      const [existing] = await db.query(
+        "SELECT id FROM teams WHERE name = ? AND organisation_id = ? AND id != ?",
+        [targetName, orgId, id]
+      );
+
+      if (existing.length > 0) {
+        return res.status(400).json({
+          message: "Team with this name already exists",
+        });
+      }
+    }
+
     await db.query(
       `UPDATE teams
        SET name = ?, description = ?
        WHERE id = ? AND organisation_id = ?`,
-      [name || teams[0].name, description || teams[0].description, id, orgId],
+      [targetName, description !== undefined ? description : teams[0].description, id, orgId],
     );
 
     const [updatedTeam] = await db.query("SELECT * FROM teams WHERE id = ?", [
@@ -202,8 +217,14 @@ const assignEmployeeToTeam = async (req, res) => {
 const unassignEmployeeFromTeam = async (req, res) => {
   const db = getDB();
   const { teamId } = req.params;
-  const { employeeId } = req.body;
+  const employeeId = req.params.employeeId || req.query.employeeId || req.body?.employeeId;
   const { orgId } = req.user;
+
+  if (!employeeId) {
+    return res.status(400).json({
+      message: "Employee ID is required",
+    });
+  }
 
   try {
     const [assignment] = await db.query(

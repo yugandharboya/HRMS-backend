@@ -20,6 +20,18 @@ const register = async (req, res) => {
       });
     }
 
+    // Check if organisation name already exists
+    const [existingOrgs] = await db.query(
+      "SELECT * FROM organisations WHERE name = ?",
+      [orgName]
+    );
+
+    if (existingOrgs.length > 0) {
+      return res.status(400).json({
+        message: "Organisation name already exists",
+      });
+    }
+
     // Create organization
     const [orgResult] = await db.query(
       "INSERT INTO organisations (name) VALUES (?)",

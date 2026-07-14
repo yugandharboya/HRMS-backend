@@ -26,6 +26,7 @@ router.get("/assigned_members/all", authenticateToken, getAssignedMembers);
 router.post("/:teamId/assign_team", authenticateToken, assignEmployeeToTeam);
 
 router.delete("/:teamId/unassign", authenticateToken, unassignEmployeeFromTeam);
+router.delete("/:teamId/unassign/:employeeId", authenticateToken, unassignEmployeeFromTeam);
 
 router.get("/:teamId/members", authenticateToken, getTeamMembers);
 

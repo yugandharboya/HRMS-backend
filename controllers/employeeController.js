@@ -104,11 +104,31 @@ const updateEmployee = async (req, res) => {
       });
     }
 
+    const currentEmployee = employees[0];
+    const newFirstName = firstName !== undefined ? firstName : currentEmployee.first_name;
+    const newLastName = lastName !== undefined ? lastName : currentEmployee.last_name;
+    const newEmail = email !== undefined ? email : currentEmployee.email;
+    const newPhone = phone !== undefined ? phone : currentEmployee.phone;
+
+    // Check duplicate email for another employee in same organization
+    if (newEmail !== currentEmployee.email) {
+      const [duplicateEmail] = await db.query(
+        "SELECT id FROM employees WHERE email = ? AND organisation_id = ? AND id != ?",
+        [newEmail, orgId, id]
+      );
+
+      if (duplicateEmail.length > 0) {
+        return res.status(400).json({
+          message: "Employee with this email already exists",
+        });
+      }
+    }
+
     await db.query(
       `UPDATE employees
       SET first_name=?, last_name=?, email=?, phone=?
       WHERE id=? AND organisation_id=?`,
-      [firstName, lastName, email, phone, id, orgId],
+      [newFirstName, newLastName, newEmail, newPhone, id, orgId],
     );
 
     res.json({
